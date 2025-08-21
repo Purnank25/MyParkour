@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 239317172}
   - component: {fileID: 239317171}
+  - component: {fileID: 239317173}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -149,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  roationspeed: 500
 --- !u!4 &239317172
 Transform:
   m_ObjectHideFlags: 0
@@ -165,6 +167,28 @@ Transform:
   - {fileID: 2024965784}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &239317173
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239317170}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 50b6d2a360d5e754da326dff27497ea0, type: 3}
+  m_Controller: {fileID: 9100000, guid: f2f6433669d85c347b9660e8701a7e24, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 239317172}
   distance: 5
-  minVerticalAngle: -20
+  minVerticalAngle: -10
   maxVerticalAngle: 45
   framingoffest: {x: 0, y: 1}
   rotationSpeed: 1
