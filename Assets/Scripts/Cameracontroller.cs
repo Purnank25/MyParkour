@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
 
    [SerializeField] Transform followTarget;
@@ -34,4 +34,5 @@ public class NewMonoBehaviourScript : MonoBehaviour
         transform.rotation = targetRotation;
 
     }
+    public Quaternion PlanarRotation => Quaternion.Euler(0, rotaionY, 0);
 }
