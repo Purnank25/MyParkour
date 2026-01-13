@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     bool isgrounded;
     float yspeed ;
+    bool hasControl =  true;
     CameraController cameraController;
     Quaternion targetRotation;
     Animator animator;
@@ -37,7 +38,10 @@ public class PlayerController : MonoBehaviour
         var movedir = cameraController.PlanarRotation * moveInput;
         GroundCheck();
         Debug.Log( "is grounded = "+ isgrounded);
-
+        if (!hasControl)
+        {
+            return;
+        }
         if (isgrounded)
         {
             yspeed = -0.5f;
@@ -62,6 +66,19 @@ public class PlayerController : MonoBehaviour
         isgrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
       
     }
+    public void SetControl( bool hasControl)
+    {
+        this.hasControl = hasControl;
+        characterController.enabled = hasControl;
+        if(!hasControl)
+        {
+            animator.SetFloat("moveAmount", 0f);
+            targetRotation = transform.rotation;
+        }
+    }
+    
+
+
     private void OnDrawGizmosSelected()
     {
        Gizmos.color = new Color(0,1,0,0.5f);
