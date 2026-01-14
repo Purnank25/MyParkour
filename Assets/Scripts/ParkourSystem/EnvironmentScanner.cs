@@ -4,7 +4,7 @@ public class EnvironmentScanner : MonoBehaviour
 {
     [SerializeField] Vector3 forwardRayOffset = new Vector3(0, 1.2f, 0);
     [SerializeField] float forwardRayLength = 0.8f;
-    [SerializeField] float heightRayLength = 5;
+    [SerializeField] float heightRayLength = 5f;
     [SerializeField] LayerMask obstacleLayer;
 
     void Start()

@@ -69,11 +69,12 @@ public class PlayerController : MonoBehaviour
     public void SetControl( bool hasControl)
     {
         this.hasControl = hasControl;
-        characterController.enabled = hasControl;
+        //characterController.enabled = hasControl;
         if(!hasControl)
         {
             animator.SetFloat("moveAmount", 0f);
             targetRotation = transform.rotation;
+            yspeed = 1f;
         }
     }
     
@@ -84,4 +85,6 @@ public class PlayerController : MonoBehaviour
        Gizmos.color = new Color(0,1,0,0.5f);
         Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
     }
+
+    public float RotationSpeed => roationspeed;
 }

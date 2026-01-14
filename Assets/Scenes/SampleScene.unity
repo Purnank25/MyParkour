@@ -184,11 +184,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 239317170}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 50b6d2a360d5e754da326dff27497ea0, type: 3}
+  m_Avatar: {fileID: 9000000, guid: ac9a05545f358264292ad77a683bb188, type: 3}
   m_Controller: {fileID: 9100000, guid: f2f6433669d85c347b9660e8701a7e24, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -234,6 +234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 176f9b88adf47294bb84b46b494125e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parkourActions:
+  - {fileID: 11400000, guid: 890e73d9f9399ca4b92f1fe84902fba3, type: 2}
+  - {fileID: 11400000, guid: 0f489e525ab29d240a8b9ed329b856c0, type: 2}
+  - {fileID: 11400000, guid: dd5c6f68320465a47866930046f28b94, type: 2}
 --- !u!114 &239317176
 MonoBehaviour:
   m_ObjectHideFlags: 0
