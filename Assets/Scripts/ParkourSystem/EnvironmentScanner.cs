@@ -6,6 +6,7 @@ public class EnvironmentScanner : MonoBehaviour
     [SerializeField] float forwardRayLength = 0.8f;
     [SerializeField] float heightRayLength = 5f;
     [SerializeField] LayerMask obstacleLayer;
+ 
 
     void Start()
     {
@@ -32,6 +33,9 @@ public class EnvironmentScanner : MonoBehaviour
         }
             return hitdata ;
     }
+
+    
+
 }
 
 public struct ObstacleHitData

@@ -20,7 +20,7 @@ public class ParkourController : MonoBehaviour
     private void Update() 
     {
       if(Input.GetButton("Jump")&& ! inAction)
-        {
+       {
             var hitData = environmentScanner.ObstacleCheck(); ;
             if(hitData.forwardHitFound)
             {
@@ -34,9 +34,10 @@ public class ParkourController : MonoBehaviour
                 }
                 
             }
-        }
+
+       }
     }
-    IEnumerator DoParkourAction(ParkourAction action)
+    [SerializeField]IEnumerator DoParkourAction(ParkourAction action)
     {
         inAction = true;
         playerController.SetControl(false);
