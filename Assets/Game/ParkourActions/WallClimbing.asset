@@ -17,7 +17,7 @@ MonoBehaviour:
   maxHeight: 0
   rotateToObstacle: 0
   enableTargetMatching: 1
-  matchBodyPart: 0
+  matchBodyPart: 1
   matchStartTime: 0
   matchTargetTime: 0
   matchPositionWeight: {x: 1, y: 1, z: 1}
