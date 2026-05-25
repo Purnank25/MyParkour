@@ -6,7 +6,7 @@ public class PayloadController : MonoBehaviour
     [SerializeField] float moveSpeed = 2f;
     [SerializeField] float detectionRadius = 5f;
     [SerializeField] LayerMask playerLayer;
-
+    public Vector3 CurrentVelocity { get; private set; }
     int currentWaypointIndex = 0;
     void Start()
     {
@@ -28,11 +28,16 @@ public class PayloadController : MonoBehaviour
     }
     void MovePayload()
     {
-        if (currentWaypointIndex >= waypoints.Length) return; 
+        if (currentWaypointIndex >= waypoints.Length) return;
 
         Transform target = waypoints[currentWaypointIndex];
+        Vector3 prevPosition = transform.position;
+
         transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
 
+        CurrentVelocity = (transform.position - prevPosition) / Time.deltaTime;
+
+        
       
         Vector3 dir = (target.position - transform.position);
         dir.y = 0;

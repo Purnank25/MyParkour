@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     bool isgrounded;
     float yspeed ;
     bool hasControl =  true;
+    bool isOnPayload;
+    PayloadController payload;
     CameraController cameraController;
     Quaternion targetRotation;
     Animator animator;
@@ -45,6 +47,8 @@ public class PlayerController : MonoBehaviour
         if(hasControl)
         {
             FaceMouseDirection();
+            if (isOnPayload && payload != null && isgrounded)
+                characterController.Move(payload.CurrentVelocity * Time.deltaTime);
         }
         if (isgrounded)
         {
@@ -71,11 +75,7 @@ public class PlayerController : MonoBehaviour
        transform.rotation =  Quaternion.RotateTowards(transform.rotation, targetRotation,roationspeed * Time.deltaTime);
         animator.SetFloat("moveAmount", moveAmount,0.2f,Time.deltaTime);
     }
-    void GroundCheck()
-    {
-        isgrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
-      
-    }
+    
     public void SetControl( bool hasControl)
     {
         this.hasControl = hasControl;
@@ -115,10 +115,22 @@ public class PlayerController : MonoBehaviour
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Debug.Log("Hit: " + hit.gameObject.name + " | Tag: " + hit.gameObject.tag);
         if (hit.gameObject.CompareTag("Payload") && isgrounded)
-            transform.SetParent(hit.transform);
-        else if (!hit.gameObject.CompareTag("Payload"))
-            transform.SetParent(null);
+        {
+            isOnPayload = true;
+            payload = hit.gameObject.GetComponent<PayloadController>();
+        }
+    }
+    void GroundCheck()
+    {
+        bool wasGrounded = isgrounded;
+        isgrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
+
+        // reset payload when in air
+        if (!isgrounded)
+        {
+            isOnPayload = false;
+            payload = null;
+        }
     }
 }
