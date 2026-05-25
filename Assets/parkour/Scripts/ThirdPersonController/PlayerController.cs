@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float groundCheckRadius = 0.2f;
     [SerializeField] Vector3 groundCheckOffset ;
     [SerializeField] LayerMask groundLayer;
-
+    [SerializeField] float jumpForce = 5f;
     bool isgrounded;
     float yspeed ;
     bool hasControl =  true;
@@ -42,10 +42,18 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        if(hasControl)
+        {
+            FaceMouseDirection();
+        }
         if (isgrounded)
         {
             yspeed = -0.5f;
+
+            if (Input.GetButtonDown("Jump"))
+                yspeed = jumpForce;
         }
+        
         else
         {
           yspeed += Physics.gravity.y * Time.deltaTime;
@@ -53,11 +61,13 @@ public class PlayerController : MonoBehaviour
         var velocity = movedir * moveSpeed;
         velocity.y = yspeed;
         characterController.Move(velocity * Time.deltaTime);
+       
         if (moveAmount > 0)
         {
             
             targetRotation = Quaternion.LookRotation(movedir);
         }
+
        transform.rotation =  Quaternion.RotateTowards(transform.rotation, targetRotation,roationspeed * Time.deltaTime);
         animator.SetFloat("moveAmount", moveAmount,0.2f,Time.deltaTime);
     }
@@ -74,7 +84,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetFloat("moveAmount", 0f);
             targetRotation = transform.rotation;
-            yspeed = 1f;
+            yspeed = 0f;
         }
     }
     
@@ -88,6 +98,27 @@ public class PlayerController : MonoBehaviour
 
     public float RotationSpeed => roationspeed;
 
-    
+    void FaceMouseDirection()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, groundLayer))
+        {
+            Vector3 lookTarget = hit.point;
+            lookTarget.y = transform.position.y; // keep player upright
+            Vector3 direction = lookTarget - transform.position;
 
+            if (direction.magnitude > 0.1f)
+            {
+                targetRotation = Quaternion.LookRotation(direction);
+            }
+        }
+    }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Debug.Log("Hit: " + hit.gameObject.name + " | Tag: " + hit.gameObject.tag);
+        if (hit.gameObject.CompareTag("Payload") && isgrounded)
+            transform.SetParent(hit.transform);
+        else if (!hit.gameObject.CompareTag("Payload"))
+            transform.SetParent(null);
+    }
 }

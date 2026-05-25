@@ -37,7 +37,7 @@ public class ParkourController : MonoBehaviour
 
        }
     }
-    [SerializeField]IEnumerator DoParkourAction(ParkourAction action)
+    public IEnumerator DoParkourAction(ParkourAction action)
     {
         inAction = true;
         playerController.SetControl(false);
