@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] bool invertX;
     [SerializeField] bool invertY;
     [SerializeField] LayerMask cameraCollisionMask;
-    [SerializeField] float followSpeed = 5f;
+
     float rotationY;
     float rotationX;
 
