@@ -2,38 +2,47 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
-   [SerializeField] Transform followTarget;
+    [SerializeField] Transform followTarget;
     [SerializeField] float distance = 5;
     [SerializeField] float minVerticalAngle = -45;
     [SerializeField] float maxVerticalAngle = 45;
-    [SerializeField]   Vector2 framingoffest;
+    [SerializeField] Vector2 framingOffset;
     [SerializeField] float rotationSpeed = 2f;
-    [SerializeField] bool invertx;
-    [SerializeField] bool inverty;
-    float rotaionY ;
+    [SerializeField] bool invertX;
+    [SerializeField] bool invertY;
+    [SerializeField] LayerMask cameraCollisionMask;
+    [SerializeField] float followSpeed = 5f;
+    float rotationY;
     float rotationX;
-    float invertxval;
-    float invertyval;
+
     void Start()
     {
-      Cursor.visible = false;
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-    private void Update()
+
+    void Update()
     {
-        invertxval = (invertx) ? -1 : 1;
-        invertyval = (inverty) ? -1 : 1;
-        rotaionY += Input.GetAxis("Mouse X") * rotationSpeed;
-        rotationX += Input.GetAxis("Mouse Y") * rotationSpeed;
-        rotationX = Mathf.Clamp(rotationX,minVerticalAngle, maxVerticalAngle);
-       
-        var targetRotation = Quaternion.Euler(rotationX, rotaionY, 0);
+        float invertXVal = invertX ? -1 : 1;
+        float invertYVal = invertY ? -1 : 1;
 
-        var focusPosition = followTarget.position + new Vector3( framingoffest.x,framingoffest.y);
-        transform.position = focusPosition - targetRotation * new Vector3(0,0,distance);
+        rotationY += Input.GetAxis("Mouse X") * rotationSpeed * invertXVal;
+        rotationX += Input.GetAxis("Mouse Y") * rotationSpeed * invertYVal;
+        rotationX = Mathf.Clamp(rotationX, minVerticalAngle, maxVerticalAngle);
+
+        var targetRotation = Quaternion.Euler(rotationX, rotationY, 0);
+        var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y);
+
+        Vector3 desiredPosition = focusPosition - targetRotation * new Vector3(0, 0, distance);
+
+        if (Physics.Raycast(focusPosition, desiredPosition - focusPosition, out RaycastHit hit, distance, cameraCollisionMask))
+            transform.position = hit.point + (focusPosition - desiredPosition).normalized * 0.2f;
+        else
+            transform.position = desiredPosition;
+
         transform.rotation = targetRotation;
-
     }
-    public Quaternion PlanarRotation => Quaternion.Euler(0, rotaionY, 0);
+
+    public Quaternion PlanarRotation => Quaternion.Euler(0, rotationY, 0);
+
 }
