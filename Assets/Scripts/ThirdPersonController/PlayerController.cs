@@ -23,9 +23,8 @@ public class PlayerController : MonoBehaviour
     {
         
     }
-    private void Awake()
+    void Awake()
     {
-
         cameraController = Camera.main.GetComponent<CameraController>();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();

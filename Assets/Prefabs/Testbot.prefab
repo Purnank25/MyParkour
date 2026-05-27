@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8512305244509194351}
   - component: {fileID: 1733378217532188343}
-  - component: {fileID: 7924753691080369566}
   m_Layer: 7
   m_Name: Testbot
   m_TagString: Untagged
@@ -47,24 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
---- !u!114 &7924753691080369566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7728073320225766363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 148a891abc5c03546805cb5ce8555100, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoAim
-  aimRadius: 5
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  damage: 10
-  fireRate: 1
 --- !u!1001 &5984490353002509140
 PrefabInstance:
   m_ObjectHideFlags: 0

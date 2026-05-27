@@ -17,9 +17,10 @@ public class HeavyProjectile : MonoBehaviour
             Physics.IgnoreCollision(projCollider, col);
     }
 
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger) return;
+        if (other.isTrigger == false) return; // only hit trigger colliders
         if (owner != null && other.transform.IsChildOf(owner.transform)) return;
 
         HealthSystem health = other.GetComponentInParent<HealthSystem>();

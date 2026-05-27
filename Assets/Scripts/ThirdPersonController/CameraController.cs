@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] Transform followTarget;
     [SerializeField] float distance = 5;
     [SerializeField] float minVerticalAngle = -45;
     [SerializeField] float maxVerticalAngle = 45;
@@ -12,8 +11,25 @@ public class CameraController : MonoBehaviour
     [SerializeField] bool invertY;
     [SerializeField] LayerMask cameraCollisionMask;
 
+    Transform followTarget;
     float rotationY;
     float rotationX;
+
+    void Awake()
+    {
+        // auto find player by tag
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            // look for CameraTarget child
+            Transform cameraTarget = player.transform.Find("CameraTarget");
+            followTarget = cameraTarget != null ? cameraTarget : player.transform;
+        }
+        else
+        {
+            Debug.LogError("No GameObject with tag Player found");
+        }
+    }
 
     void Start()
     {
@@ -23,6 +39,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (followTarget == null) return;
+
         float invertXVal = invertX ? -1 : 1;
         float invertYVal = invertY ? -1 : 1;
 
@@ -44,5 +62,4 @@ public class CameraController : MonoBehaviour
     }
 
     public Quaternion PlanarRotation => Quaternion.Euler(0, rotationY, 0);
-
 }
