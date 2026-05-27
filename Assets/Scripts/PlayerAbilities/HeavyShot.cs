@@ -61,16 +61,9 @@ public class HeavyShot : MonoBehaviour
 
         GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(direction));
 
-        // pass owner to ignore self collision
         HeavyProjectile heavyProj = proj.GetComponent<HeavyProjectile>();
         if (heavyProj != null)
-            heavyProj.Init(damage, gameObject);
-
-        Rigidbody rb = proj.GetComponent<Rigidbody>();
-        if (rb != null)
-            rb.linearVelocity = direction * projectileSpeed;
-
-        Destroy(proj, 6f);
+            heavyProj.Init(damage, projectileSpeed, direction, gameObject);
 
         currentAmmo--;
         if (currentAmmo <= 0)

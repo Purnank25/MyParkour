@@ -3,30 +3,50 @@ using UnityEngine;
 public class HeavyProjectile : MonoBehaviour
 {
     float damage;
+    float speed;
+    Vector3 direction;
     GameObject owner;
 
-    public void Init(float damage, GameObject owner)
+    public float Damage => damage;
+
+    public void Init(float damage, float speed, Vector3 direction, GameObject owner)
     {
         this.damage = damage;
+        this.speed = speed;
+        this.direction = direction;
         this.owner = owner;
-
-        // ignore all colliders on owner and its children
-        Collider[] ownerColliders = owner.GetComponentsInChildren<Collider>();
-        Collider projCollider = GetComponent<Collider>();
-        foreach (Collider col in ownerColliders)
-            Physics.IgnoreCollision(projCollider, col);
     }
 
-
-    void OnTriggerEnter(Collider other)
+    void Start()
     {
-        if (other.isTrigger == false) return; // only hit trigger colliders
-        if (owner != null && other.transform.IsChildOf(owner.transform)) return;
+        Destroy(gameObject, 6f);
+    }
 
-        HealthSystem health = other.GetComponentInParent<HealthSystem>();
-        if (health != null)
-            health.TakeDamage(damage);
+    void Update()
+    {
+        transform.position += direction * speed * Time.deltaTime;
 
-        Destroy(gameObject);
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit,
+            speed * Time.deltaTime + 0.1f, Physics.AllLayers,
+            QueryTriggerInteraction.Collide))
+        {
+            if (owner != null && hit.collider.transform.IsChildOf(owner.transform)) return;
+
+            // check shield first
+            ShieldHealth shield = hit.collider.GetComponent<ShieldHealth>();
+            if (shield != null)
+            {
+                shield.AbsorbDamage(damage);
+                Destroy(gameObject);
+                return;
+            }
+
+            // then check health
+            HealthSystem health = hit.collider.GetComponentInParent<HealthSystem>();
+            if (health != null)
+                health.TakeDamage(damage);
+
+            Destroy(gameObject);
+        }
     }
 }

@@ -4,27 +4,52 @@ public class VanguardProjectile : MonoBehaviour
 {
     float damage;
     float aoeRadius;
+    float speed;
+    Vector3 direction;
     GameObject owner;
+
     [SerializeField] GameObject explosionEffect;
+
+    public float Damage => damage;
 
     public void Init(float damage, float aoeRadius, Vector3 direction, float speed, GameObject owner)
     {
         this.damage = damage;
         this.aoeRadius = aoeRadius;
+        this.direction = direction;
+        this.speed = speed;
         this.owner = owner;
-        GetComponent<Rigidbody>().linearVelocity = direction * speed;
-        Destroy(gameObject, 3f);
     }
 
-    void OnTriggerEnter(Collider other)
+    void Start()
     {
-        if (owner != null && other.transform.IsChildOf(owner.transform)) return;
-        if (other.isTrigger) return;
-
-        Explode();
+        Destroy(gameObject, 6f);
     }
 
-  
+    void Update()
+    {
+        transform.position += direction * speed * Time.deltaTime;
+
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit,
+            speed * Time.deltaTime + 0.1f, Physics.AllLayers,
+            QueryTriggerInteraction.Collide))
+        {
+            if (owner != null && hit.collider.transform.IsChildOf(owner.transform)) return;
+
+            // check shield first
+            ShieldHealth shield = hit.collider.GetComponent<ShieldHealth>();
+            if (shield != null)
+            {
+                shield.AbsorbDamage(damage);
+                Destroy(gameObject);
+                return;
+            }
+
+            // hit something — explode
+            Explode();
+        }
+    }
+
     void Explode()
     {
         if (explosionEffect != null)
@@ -34,14 +59,7 @@ public class VanguardProjectile : MonoBehaviour
         foreach (Collider hit in hits)
         {
             if (owner != null && hit.transform.IsChildOf(owner.transform)) continue;
-
-            // check if hit shield first
-            ShieldHealth shield = hit.GetComponent<ShieldHealth>();
-            if (shield != null)
-            {
-                shield.AbsorbDamage(damage);
-                continue; // shield absorbed, dont damage player
-            }
+            if (hit.isTrigger) continue;
 
             HealthSystem health = hit.GetComponentInParent<HealthSystem>();
             if (health != null)

@@ -15,26 +15,19 @@ public class CameraController : MonoBehaviour
     float rotationY;
     float rotationX;
 
-    void Awake()
-    {
-        // auto find player by tag
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
-        {
-            // look for CameraTarget child
-            Transform cameraTarget = player.transform.Find("CameraTarget");
-            followTarget = cameraTarget != null ? cameraTarget : player.transform;
-        }
-        else
-        {
-            Debug.LogError("No GameObject with tag Player found");
-        }
-    }
-
     void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    // called by CharacterSelector when character switches
+    public void SetFollowTarget(Transform target)
+    {
+        followTarget = target;
+
+        // snap rotation to new character facing
+        rotationY = target.eulerAngles.y;
     }
 
     void Update()

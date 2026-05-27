@@ -9,15 +9,9 @@ public class ShieldHealth : MonoBehaviour
         vanguardShield = GetComponentInParent<VanguardShield>();
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.isTrigger) return;
-        // damage is handled by projectile hitting shield collider
-    }
-
-    // called by projectiles that hit the shield
     public void AbsorbDamage(float damage)
     {
+        if (!vanguardShield.IsActive) return;
         vanguardShield.TakeDamage(damage);
     }
 }

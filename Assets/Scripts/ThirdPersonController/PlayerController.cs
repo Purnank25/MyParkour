@@ -116,4 +116,8 @@ public class PlayerController : MonoBehaviour
             payload = null;
         }
     }
+    public void SetCamera(CameraController cam)
+    {
+        cameraController = cam;
+    }
 }
