@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
         if (hit.gameObject.CompareTag("Payload") && isgrounded)
         {
             isOnPayload = true;
-            payload = hit.gameObject.GetComponent<PayloadController>();
+            payload = hit.gameObject.GetComponentInParent<PayloadController>();
         }
     }
     void GroundCheck()
