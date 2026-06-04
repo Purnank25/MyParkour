@@ -28,4 +28,10 @@ public class HealthSystem : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+    public void Heal(float amount)
+    {
+        if (IsDead) return;
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    }
 }

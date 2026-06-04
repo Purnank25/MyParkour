@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!gameObject.activeInHierarchy) return;
+        if (!characterController.enabled) return;
+
+
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         float moveAmount = Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v));
